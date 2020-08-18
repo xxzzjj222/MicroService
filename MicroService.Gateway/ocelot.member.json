@@ -1,0 +1,40 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/members",
+      "DownstreamScheme": "http",
+      "ServiceName": "MemberService",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 10,
+        "Limit": 2
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5,
+        "TimeoutValue": 1000
+      },
+      "UpstreamPathTemplate": "/ocelot/members",
+      "UpstreamHttpMethod": [ "Get" ],
+      "key": "members"
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    },
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "busy",
+      "HttpStatusCode": 999,
+      "ClientIdHeader": "Test"
+    }
+  }
+}

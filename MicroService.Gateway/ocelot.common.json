@@ -1,0 +1,31 @@
+{
+  "ReRoutes": [
+
+  ],
+  "Aggregates": [
+    {
+      "ReRouteKeys": [
+        "members",
+        "teams"
+      ],
+      "UpstreamPathTemplate": "/ocelot/common"
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    },
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "busy",
+      "HttpStatusCode": 999,
+      "ClientIdHeader": "Test"
+    },
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "OcelotKey",
+      "AllowedScopes": [ "memberservice", "teamserver" ]
+    }
+  }
+}
