@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MicroService.VideoService.Services
 {
-    public class VideoService : IVideoService
+    public class VideoServiceImpl : IVideoService
     {
         private readonly IVideoRepository videoRepository;
 
-        public VideoService(IVideoRepository videoRepository)
+        public VideoServiceImpl(IVideoRepository videoRepository)
         {
             this.videoRepository = videoRepository;
         }

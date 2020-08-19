@@ -14,7 +14,7 @@ namespace MicroService.AggregateService.Controllers
         [HttpGet]
         public ActionResult GetHealthCheck()
         {
-            Console.WriteLine("心跳检测");
+            //Console.WriteLine("心跳检测");
             return Ok("连接成功");
         }
     }

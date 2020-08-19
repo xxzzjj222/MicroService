@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
 using MicroService.VideoService.Models;
+using MicroService.VideoService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,11 @@ using Microsoft.EntityFrameworkCore;
 namespace MicroService.VideoService.Controllers
 {
     [Route("[controller]")]
-    public class VideoController : Controller
+    [ApiController]
+    public class VideoController : ControllerBase
     {
-        private readonly VideoService.Services.VideoService videoService;
-        public VideoController(VideoService.Services.VideoService videoService)
+        private readonly IVideoService videoService;
+        public VideoController(IVideoService videoService)
         {
             this.videoService = videoService;
         }
@@ -78,9 +80,10 @@ namespace MicroService.VideoService.Controllers
         /// *  一对多匹配
         /// # 一对一匹配
         [NonAction]
-        [CapSubscribe("video.*")]
+        [CapSubscribe("videoevent")]
         public ActionResult<Videos> PostVideo(Videos video)
         {
+            //throw new Exception("aaa");
             Console.WriteLine($"接受到视频事件消息");
             videoService.Create(video);
             return CreatedAtAction("GetVideo", new { id = video.Id }, video);

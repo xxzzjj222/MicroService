@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace MicroService.VideoService.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class HealthCheckController:ControllerBase
     {
         // GET: api/Teams

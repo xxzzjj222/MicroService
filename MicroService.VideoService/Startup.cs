@@ -35,7 +35,7 @@ namespace MicroService.VideoService
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             //2.注册service
-            services.AddScoped<IVideoService, VideoService.Services.VideoService>();
+            services.AddScoped<IVideoService, VideoServiceImpl>();
             //3.注册仓储
             services.AddScoped<IVideoRepository, VideoRepository>();
 
@@ -49,7 +49,7 @@ namespace MicroService.VideoService
             services.AddCap(x =>
             {
                 // 1 使用内存存储消息(消息发送失败处理)
-                x.UseInMemoryStorage();
+                //x.UseInMemoryStorage();
 
                 // 1 使用EntityFramework进行存储操作
                 x.UseEntityFramework<VideoContext>();
@@ -63,12 +63,12 @@ namespace MicroService.VideoService
                     rb.HostName = "localhost";
                     rb.UserName = "guest";
                     rb.Password = "guest";
-                    rb.Port = 15672;
+                    rb.Port = 5672;
                     rb.VirtualHost = "/";
                 });
 
                 //4.配置定时器尽早启动
-                // x.FailedRetryInterval = 2;
+                //x.FailedRetryInterval = 2;
                 x.FailedRetryCount = 5; // 3 次失败 3分钟
 
                 //5.人工干预，修改表，后面管理页面

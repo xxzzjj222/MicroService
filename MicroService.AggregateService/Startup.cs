@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using MicroService.AggregateService.Context;
 using MicroService.AggregateService.Services;
 using MicroService.Core.HttpClientConsul;
 using MicroService.Core.HttpClientPolly;
@@ -12,6 +13,7 @@ using MicroService.Core.Registry.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +34,11 @@ namespace MicroService.AggregateService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AggregateContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             // 1、自定义异常处理(用缓存处理)
             var fallbackResponse = new HttpResponseMessage
             {
@@ -67,16 +74,26 @@ namespace MicroService.AggregateService
 
             services.AddCap(options =>
             {
-                options.UseInMemoryStorage();
+                //options.UseInMemoryStorage();
 
+                // 1 使用EntityFramework进行存储操作
+                options.UseEntityFramework<AggregateContext>();
+
+                //2.使用sqlserver进行事务处理
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+
+                //rabbiimq进行事件中心处理
                 options.UseRabbitMQ(config =>
                 {
                     config.HostName = "localhost";
-                    config.UserName = "xzj";
-                    config.Password = "123456";
-                    config.Port = 15672;
+                    config.UserName = "guest";
+                    config.Password = "guest";
+                    config.Port = 5672;
                     config.VirtualHost = "/";
                 });
+
+                //添加cap后台监控页面
+                options.UseDashboard();
             });
 
             services.AddControllers();
