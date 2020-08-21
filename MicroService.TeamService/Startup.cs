@@ -51,13 +51,13 @@ namespace MicroService.TeamService
             //        options.RequireHttpsMetadata = false;//3.https元数据，不需要
             //    });
 
-            // 7、注册saga分布式事务
-            services.AddOmegaCore(option =>
-            {
-                option.GrpcServerAddress = "localhost:8091"; // 1、协调中心地址
-                option.InstanceId = "TeamService-1";// 2、服务实例Id
-                option.ServiceName = "TeamService";// 3、服务名称
-            });
+            //// 7、注册saga分布式事务
+            //services.AddOmegaCore(option =>
+            //{
+            //    option.GrpcServerAddress = "localhost:8091"; // 1、协调中心地址
+            //    option.InstanceId = "TeamService-1";// 2、服务实例Id
+            //    option.ServiceName = "TeamService";// 3、服务名称
+            //});
 
             services.AddControllers();
         }
@@ -71,7 +71,7 @@ namespace MicroService.TeamService
                 app.UseDeveloperExceptionPage();
             }
             
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             //consul服务注册
             app.UseConsulRegistry();

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+//using NLog.Extensions.Logging;
+using NLog.Web;
 
 namespace MicroService.AggregateService
 {
@@ -20,7 +22,13 @@ namespace MicroService.AggregateService
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    //Ìí¼ÓNlogÈÕÖ¾
+                    webBuilder.ConfigureLogging(logBuilder =>
+                    {
+                        logBuilder.AddNLog("nlog.config");
+                    });
+
+                    webBuilder.UseStartup<Startup>().UseNLog();
                 });
     }
 }

@@ -49,19 +49,20 @@ namespace MicroService.MVCClient.Controllers
                 client.SetBearerToken(accessToken);
                 /*client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);*/
-                //var result = await client.GetStringAsync("http://localhost:5006/TeamService/teams");
+                var result = await client.GetStringAsync("http://localhost:5006/AggregateService/aggregate");
                 //var result = await client.GetStringAsync("http://localhost:5000/teams");
 
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xhtml+xml"));
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json", 0.9));
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/webp"));
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
-                var result = await client.PostAsync("http://localhost:5006/AggregateService/aggregate", null);
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xhtml+xml"));
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json", 0.9));
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/webp"));
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
+                //var result = await client.PostAsync("http://localhost:5006/AggregateService/aggregate", null);
                 #endregion
-                // 3、响应结果到页面
-                ViewData.Add("Json", await result.Content.ReadAsStringAsync());
+                //// 3、响应结果到页面
+                //ViewData.Add("Json", await result.Content.ReadAsStringAsync());
+                ViewData.Add("Json", result);
             }
             #endregion
 

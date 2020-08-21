@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
+//using Grpc.Core.Logging;
 using MicroService.AggregateService.Model;
 using MicroService.AggregateService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using NLog;
 using Servicecomb.Saga.Omega.Abstractions.Transaction;
 
 namespace MicroService.AggregateService.Controllers
@@ -20,6 +22,7 @@ namespace MicroService.AggregateService.Controllers
         private readonly ITeamServiceClient teamServiceClient;
         private readonly IMemberServiceClient memberServiceClient;
         private readonly ICapPublisher capPublisher;
+        private readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public AggregateController(ITeamServiceClient teamServiceClient, IMemberServiceClient memberServiceClient, ICapPublisher capPublisher)
         {
             this.teamServiceClient = teamServiceClient;
@@ -36,6 +39,8 @@ namespace MicroService.AggregateService.Controllers
                 IList<Members> members = await memberServiceClient.GetMembers(team.Id);
                 team.Members = members;
             }
+            logger.Info("信息获取成功");
+            Console.WriteLine("信息获取成功");
             return Ok(teams);
         }
 
@@ -47,7 +52,8 @@ namespace MicroService.AggregateService.Controllers
         }
 
         // POST: api/Aggregate
-        [HttpPost,SagaStart]
+        //[HttpPost,SagaStart]
+        [HttpPost]
         public ActionResult Post( string value)
         {
             Console.WriteLine($"添加团队信息和成员信息");

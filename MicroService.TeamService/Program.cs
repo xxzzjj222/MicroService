@@ -28,29 +28,29 @@ namespace MicroService.TeamService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     //动态加载配置中心的配置文件
-                    webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
-                    {
-                        //加载默认的配置到Configuration
-                        hostingContext.Configuration = config.Build();
+                    //webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+                    //{
+                    //    //加载默认的配置到Configuration
+                    //    hostingContext.Configuration = config.Build();
 
-                        //加载consul配置中心
-                        string consul_url = hostingContext.Configuration["Consul_Url"];
-                        var env = hostingContext.HostingEnvironment;
-                        config.AddConsul($"{env.ApplicationName}/appsettings.json", options =>
-                         {
-                             options.ConsulConfigurationOptions = cco => cco.Address = new Uri(consul_url);
-                             options.Optional = true;
-                             options.ReloadOnChange = true;
-                             options.OnLoadException = exception => exception.Ignore = true;
-                         });
+                    //    //加载consul配置中心
+                    //    string consul_url = hostingContext.Configuration["Consul_Url"];
+                    //    var env = hostingContext.HostingEnvironment;
+                    //    config.AddConsul($"{env.ApplicationName}/appsettings.json", options =>
+                    //     {
+                    //         options.ConsulConfigurationOptions = cco => cco.Address = new Uri(consul_url);
+                    //         options.Optional = true;
+                    //         options.ReloadOnChange = true;
+                    //         options.OnLoadException = exception => exception.Ignore = true;
+                    //     });
 
-                        //动态加载环境信息，主要在于动态获取服务名称和环境名称
+                    //    //动态加载环境信息，主要在于动态获取服务名称和环境名称
 
 
-                        //conusl中加载的配置信息加载到Configuration对象，然后通过Configuration对象加载到项目中
-                        hostingContext.Configuration = config.Build();
+                    //    //conusl中加载的配置信息加载到Configuration对象，然后通过Configuration对象加载到项目中
+                    //    hostingContext.Configuration = config.Build();
 
-                    });
+                    //});
 
                     webBuilder.UseStartup<Startup>();
                 });

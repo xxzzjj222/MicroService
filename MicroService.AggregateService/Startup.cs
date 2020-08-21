@@ -64,13 +64,13 @@ namespace MicroService.AggregateService
             //添加consul注册
             services.AddConsulRegistry(Configuration);
 
-            //添加saga事务
-            services.AddOmegaCore(options =>
-            {
-                options.GrpcServerAddress = "localhost:8091";//协调中心地址
-                options.InstanceId = "AggregateService-1";// 2、服务实例Id
-                options.ServiceName = "AggregateService";// 3、服务名称
-            });
+            ////添加saga事务
+            //services.AddOmegaCore(options =>
+            //{
+            //    options.GrpcServerAddress = "localhost:8091";//协调中心地址
+            //    options.InstanceId = "AggregateService-1";// 2、服务实例Id
+            //    options.ServiceName = "AggregateService";// 3、服务名称
+            //});
 
             services.AddCap(options =>
             {
